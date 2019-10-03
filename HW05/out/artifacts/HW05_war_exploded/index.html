@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<div id="avg">Average: 0</div>
+<div id="cnt">Count: 0</div>
+<div id="numbers">
+
+</div>
+<div id="more">More</div>
+<script>
+    var numbersElem = document.getElementById("numbers");
+    var avgElem = document.getElementById("avg");
+    var cntElem = document.getElementById("cnt");
+    var more = document.getElementById("more");
+    var avg = 0;
+    var cnt = 0;
+    var all = 0;
+    more.addEventListener("click", function (ev) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', '/random?count=5', true);
+        xhr.send();
+        xhr.onload = function () {
+            if (xhr.status !== 200) {
+                alert("Error");
+            } else {
+                var numbers = JSON.parse(xhr.response);
+                for (var i = 0; i < numbers.length; i++) {
+                    all += numbers[i];
+                    numbersElem.innerHTML += numbers[i] + "<br>";
+                }
+                cnt += 5;
+                avgElem.innerText = "Average: " + (all/cnt);
+                cntElem.innerText = "Count: " + cnt;
+            }
+        };
+    });
+</script>
+</body>
+</html>
